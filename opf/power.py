@@ -24,6 +24,7 @@ def load_case(case_name, data_dir, reindex=True):
     else:
         raise ValueError("Network name {} is undefined.".format(case_name))
     if not os.path.exists(os.path.join(data_dir, case_name)):
+        print('<<<', os.getcwd())
         os.mkdir(os.path.join(data_dir, case_name))
     if reindex:
         net = pp.create_continuous_bus_index(net, start=0)

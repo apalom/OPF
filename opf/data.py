@@ -7,8 +7,11 @@ import torch.nn
 import torch.nn.functional
 import tqdm
 
-from opf.power import NetworkManager, LoadGenerator, load_case, OPFNotConverged, adjacency_from_net
-from GNN.Utils.dataTools import _data
+#from opf.power import NetworkManager, LoadGenerator, load_case, OPFNotConverged, adjacency_from_net
+from power import NetworkManager, LoadGenerator, load_case, OPFNotConverged, adjacency_from_net
+os.chdir(r"C:\Users\Alex\Documents\GitHub\OPF\GNN")
+#from GNN.Utils.dataTools import _data
+from Utils.dataTools import _data
 import pandapower as pp
 
 
@@ -49,8 +52,10 @@ class OPFData(_data):
         self.ratio_valid = ratio_valid
         self.data_dir = data_dir
 
-        data = np.load(os.path.join(data_dir, case_name, "data.npz"))
-        self.bus = np.transpose(data['bus'], [0,2,1])
+        #data = np.load(os.path.join(data_dir, case_name, "data.npz"))
+        data = pp.networks.case30()
+        #self.bus = np.transpose(data['bus'], [0,2,1])
+        self.bus = np.transpose(data['bus']) 
         self.gen = data['gen']
         self.net = load_case(case_name, data_dir)
         self.manager = NetworkManager(self.net)

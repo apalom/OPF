@@ -1,5 +1,9 @@
-from GNN.Modules.architectures import SelectionGNN
-import GNN.Utils.graphML as gml
+import os
+os.chdir(r"C:\Users\Alex\Documents\GitHub\OPF\GNN")
+#from GNN.Modules.architectures import SelectionGNN
+from Modules.architectures import SelectionGNN
+#import GNN.Utils.graphML as gml
+import Utils.graphML as gml
 import torch
 import torch.nn
 from typing import List
