@@ -6,26 +6,27 @@ import pickle
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
+import sklearn as sk
 import torch
 import torch.nn as nn
 import torch.optim as optim
 from scipy.io import savemat
 
-import Modules.architectures as archit
-import Modules.model as model
-import Modules.train as train
-import Utils.graphML as gml
-import Utils.graphTools as graphTools
-from Utils.miscTools import writeVarValues
-from opf.data import OPFData
-from opf import power
-import sklearn as sk
+os.chdir(r"C:\Users\Alex\Documents\GitHub\OPF\working")
+import architectures as archit
+os.chdir(r"C:\Users\Alex\Documents\GitHub\OPF\working")
+import model as model 
+import train as train
+import graphML as gml
+import graphTools as graphTools
+from miscTools import writeVarValues
+from data import OPFData
+os.chdir(r"C:\Users\Alex\Documents\GitHub\OPF\working")
+#from opf import power
 
 matplotlib.rcParams['text.usetex'] = True
 matplotlib.rcParams['font.family'] = 'serif'
 torch.set_default_dtype(torch.float32)
-
-os.chdir("..")
 
 """
 Data
