@@ -7,13 +7,9 @@ import torch.nn
 import torch.nn.functional
 import tqdm
 
-#from opf.power import NetworkManager, LoadGenerator, load_case, OPFNotConverged, adjacency_from_net
-from power import NetworkManager, LoadGenerator, load_case, OPFNotConverged, adjacency_from_net
-os.chdir(r"C:\Users\Alex\Documents\GitHub\OPF\GNN")
-#from GNN.Utils.dataTools import _data
-from Utils.dataTools import _data
+from opf.power import NetworkManager, LoadGenerator, load_case, OPFNotConverged, adjacency_from_net
+from GNN.Utils.dataTools import _data
 import pandapower as pp
-
 
 def f(manager, length, data):
     n, l = data
@@ -52,10 +48,8 @@ class OPFData(_data):
         self.ratio_valid = ratio_valid
         self.data_dir = data_dir
 
-        #data = np.load(os.path.join(data_dir, case_name, "data.npz"))
-        data = pp.networks.case30()
-        #self.bus = np.transpose(data['bus'], [0,2,1])
-        self.bus = np.transpose(data['bus']) 
+        data = np.load(os.path.join(data_dir, case_name, "data.npz"))        
+        self.bus = np.transpose(data['bus'], [0,2,1])        
         self.gen = data['gen']
         self.net = load_case(case_name, data_dir)
         self.manager = NetworkManager(self.net)
@@ -184,8 +178,8 @@ if __name__ == '__main__':
 
     load = manager.get_load(reactive=True) * load_scale
     p, q = np.split(load, 2, axis=1)
-    p = LoadGenerator.generate_load_from_random(p, 10000, delta=0.1)
-    q = LoadGenerator.generate_load_from_random(q, 10000, delta=0.1)
+    p = LoadGenerator.generate_load_from_random(p, 100, delta=0.1)
+    q = LoadGenerator.generate_load_from_random(q, 100, delta=0.1)
     load = np.stack((p, q), axis=2)
     manager = NetworkManager(net)
 

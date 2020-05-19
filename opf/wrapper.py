@@ -1,26 +1,17 @@
 import sklearn
 import skorch
+from opf.data import OPFData
+from GNN.Modules.architectures import SelectionGNN
+from GNN.Utils import graphTools
+from GNN.Utils import graphML
 import numpy as np
 import torch
 import os
 import pandas as pd
 from time import gmtime, strftime
-#%%
-os.chdir(r"C:\Users\Alex\Documents\GitHub\OPF\opf")
-#from opf.data import OPFData
-from data import OPFData
-print('<<< import OPFData >>>')
-#from opf.modules import LocalGNN
-os.chdir(r"C:\Users\Alex\Documents\GitHub\OPF\opf")
-from modules import LocalGNN
-print('<<< import LocalGNN >>>')
-#%%
-os.chdir(r"C:\Users\Alex\Documents\GitHub\OPF\GNN")
-from Modules.architectures import SelectionGNN
-from Utils import graphTools
-from Utils import graphML
-#%%
-os.chdir(r"C:\Users\Alex\Documents\GitHub\OPF")
+from opf.modules import LocalGNN
+
+os.chdir("..")
 
 case_name = "case30"
 data_dir = "data"

@@ -16,18 +16,13 @@ MultiNodeAggregationGNN: implementes the multi-node aggregation GNN architecture
 GraphAttentionNetwork: implement the graph attention network architecture
 """
 
-import os
 import numpy as np
 import scipy
 import torch
 import torch.nn as nn
 
-os.chdir(r"C:\Users\Alex\Documents\GitHub\OPF\GNN\Utils")
-import graphML as gml
-import graphTools
-
-# import Utils.graphML as gml
-# import Utils.graphTools
+import Utils.graphML as gml
+import Utils.graphTools
 
 zeroTolerance = 1e-9 # Absolute values below this number are considered zero.
 

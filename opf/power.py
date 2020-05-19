@@ -23,8 +23,7 @@ def load_case(case_name, data_dir, reindex=True):
         net = pp.from_json(os.path.join(data_dir, case_name, "train.json"))
     else:
         raise ValueError("Network name {} is undefined.".format(case_name))
-    if not os.path.exists(os.path.join(data_dir, case_name)):
-        print('<<<', os.getcwd())
+    if not os.path.exists(os.path.join(data_dir, case_name)):        
         os.mkdir(os.path.join(data_dir, case_name))
     if reindex:
         net = pp.create_continuous_bus_index(net, start=0)

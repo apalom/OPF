@@ -33,15 +33,12 @@ NoPool: No summarizing function.
 MaxPoolLocal: Max-summarizing function
 """
 
-import os
 import math
 import numpy as np
 import torch
 import torch.nn as nn
 
-os.chdir(r"C:\Users\Alex\Documents\GitHub\OPF\GNN\Utils")
-#import Utils.graphTools as graphTools
-import graphTools as graphTools
+import Utils.graphTools as graphTools
 
 zeroTolerance = 1e-9 # Values below this number are considered zero.
 infiniteNumber = 1e12 # infinity equals this number

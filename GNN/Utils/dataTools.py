@@ -22,7 +22,7 @@ TwentyNews (class): handles the 20NEWS dataset
 
 import os
 import pickle
-#import hdf5storage # This is required to import old Matlab(R) files.
+import hdf5storage # This is required to import old Matlab(R) files.
 import urllib.request # To download from the internet
 import zipfile # To handle zip files
 import gzip # To handle gz files
@@ -31,9 +31,7 @@ import shutil # Command line utilities
 import numpy as np
 import torch
 
-os.chdir(r"C:\Users\Alex\Documents\GitHub\OPF\GNN\Utils")
-#import Utils.graphTools as graph
-import graphTools as graph
+import Utils.graphTools as graph
 
 zeroTolerance = 1e-9 # Values below this number are considered zero.
 
