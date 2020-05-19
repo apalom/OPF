@@ -21,8 +21,8 @@ import scipy
 import torch
 import torch.nn as nn
 
-import Utils.graphML as gml
-import Utils.graphTools
+import GNN.Utils.graphML as gml
+import GNN.Utils.graphTools
 
 zeroTolerance = 1e-9 # Absolute values below this number are considered zero.
 

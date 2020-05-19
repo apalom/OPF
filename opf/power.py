@@ -23,6 +23,10 @@ def load_case(case_name, data_dir, reindex=True):
         net = pp.from_json(os.path.join(data_dir, case_name, "train.json"))
     else:
         raise ValueError("Network name {} is undefined.".format(case_name))
+    # if data/ directory does not exist, create
+    if not os.path.exists(data_dir):
+        os.mkdir(data_dir)
+    # if data/case# directory does not exist, create
     if not os.path.exists(os.path.join(data_dir, case_name)):
         os.mkdir(os.path.join(data_dir, case_name))
     if reindex:

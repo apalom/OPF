@@ -1,6 +1,6 @@
 import sklearn
 import skorch
-from opf.data import OPFData
+from data import OPFData
 from GNN.Modules.architectures import SelectionGNN
 from GNN.Utils import graphTools
 from GNN.Utils import graphML

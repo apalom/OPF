@@ -31,7 +31,7 @@ import shutil # Command line utilities
 import numpy as np
 import torch
 
-import Utils.graphTools as graph
+import GNN.Utils.graphTools as graph
 
 zeroTolerance = 1e-9 # Values below this number are considered zero.
 

@@ -1,16 +1,17 @@
 import os
 import numpy as np
-from multiprocessing import Pool, Value
+from multiprocessing import Pool#, Value
 from functools import partial
 import torch
 import torch.nn
 import torch.nn.functional
 import tqdm
 
-from opf.power import NetworkManager, LoadGenerator, load_case, OPFNotConverged, adjacency_from_net
-from GNN.Utils.dataTools import _data
-import pandapower as pp
+from power import NetworkManager, LoadGenerator, load_case, OPFNotConverged, adjacency_from_net
 
+os.chdir('..')
+from GNN.Utils.dataTools import _data
+#import pandapower as pp
 
 def f(manager, length, data):
     n, l = data
@@ -160,9 +161,11 @@ class OPFData(_data):
 
 
 if __name__ == '__main__':
-    os.chdir("..")
+
+    #os.chdir("..")
     # Parameters
-    case_name = "case118"
+    n_samples = 100;
+    case_name = "case30"
     state = "AK"  # state to use data from
     load_scale = 1.0  # scale the load by a factor
     portion_commercial = 0.5  # how much power should be commercial
@@ -178,9 +181,9 @@ if __name__ == '__main__':
     manager = NetworkManager(net)
 
     load = manager.get_load(reactive=True) * load_scale
-    p, q = np.split(load, 2, axis=1)
-    p = LoadGenerator.generate_load_from_random(p, 10000, delta=0.1)
-    q = LoadGenerator.generate_load_from_random(q, 10000, delta=0.1)
+    p, q = np.split(load, 2, axis=1)    
+    p = LoadGenerator.generate_load_from_random(p, n_samples, delta=0.1)
+    q = LoadGenerator.generate_load_from_random(q, n_samples, delta=0.1)
     load = np.stack((p, q), axis=2)
     manager = NetworkManager(net)
 
