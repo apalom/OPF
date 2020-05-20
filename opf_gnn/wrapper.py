@@ -1,22 +1,22 @@
 import sklearn
 import skorch
-from opf.data import OPFData
-from GNN.Modules.architectures import SelectionGNN
-from GNN.Utils import graphTools
-from GNN.Utils import graphML
 import numpy as np
 import torch
 import os
+import pickle
 import pandas as pd
 from time import gmtime, strftime
-from opf.modules import LocalGNN
 
-os.chdir("..")
+# Owerko/Gama Modules
+from data import OPFData
+from modules.gnnModules.architectures import SelectionGNN
+from modules.gnnUtils import graphTools
+from modules.gnnModules.local_arch import LocalGNN
 
 case_name = "case30"
 data_dir = "data"
-ratio_train = 0.9
-ratio_valid = 0
+ratio_train = 0.8
+ratio_valid = 0.1
 device = 'cuda:0'
 
 param_meta = {
@@ -40,7 +40,7 @@ param_grid = {
 }
 
 #param_fit = {'max_epochs': 200, 'module__dimNodeSignals': [4], 'module__nFilterTaps': [], 'module__dimLayersMLP': [512, 512, case_info['num_gen']], 'module__nSelectedNodes': [], 'module__poolingSize': []}
-param_fit = {'max_epochs': 200, 'module__dimLayersMLP': [5], 'module__dimNodeSignals': [4, 64, 32], 'module__nFilterTaps': [6, 6], 'module__nSelectedNodes': [30, 30], 'module__poolingSize': [1, 1]}
+param_fit = {'max_epochs': 100, 'module__dimLayersMLP': [5], 'module__dimNodeSignals': [4, 64, 32], 'module__nFilterTaps': [4, 4], 'module__nSelectedNodes': [30, 30], 'module__poolingSize': [1, 1]}
 #param_fit = {}
 
 adjacencyMatrix = data.getGraph()
@@ -62,6 +62,7 @@ def rms(model, x, y):
 power_callback = skorch.callbacks.EpochScoring(cost)
 rms_callback = skorch.callbacks.EpochScoring(rms)
 
+print('params:', param_meta)
 if param_meta['local']:
     del param_grid['module__nSelectedNodes']
     del param_grid['module__poolingSize']
@@ -88,9 +89,33 @@ if len(param_fit) == 0:
     scores_df = pd.DataFrame(gs.cv_results_).sort_values(by='rank_test_score')
     for key in param_meta.keys():
         scores_df[key] = param_meta[key]
-    time = strftime("%y-%m-%d-%H%M", gmtime())
+    time = strftime("%y-%m-%d-%H%M")
     scores_df.to_excel(os.path.join(data_dir, case_name, time + ".xlsx"))
 else:
     net.fit(x_train, y_train)
     cost, violated_rate = cost(net, x_train, y_train)
-    print("RMS: {} | Cost ratio {} | Violation Rate {}".format(rms(net, x_train, y_train), cost, violated_rate))
+    print("\nRMS: {:.4f} | Cost ratio {:.4f} | Violation Rate {:.4f}".format(rms(net, x_train, y_train), cost, violated_rate))
+    
+    # output results to pickle    
+    results = {};
+    results['net'] = net;
+    results['params'] = param_grid;
+    results['data'] = data;    
+    results['gen_GNN'] = net.predict(x_test);
+    results['gen_test'] = y_test;
+    
+    time = strftime("%y-%m-%d-%H%M")
+    pickle.dump(results, open(os.path.join(data_dir, case_name, time)+'_result.p', 'wb'))
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

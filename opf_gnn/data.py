@@ -1,4 +1,7 @@
 import os
+
+os.chdir(r'C:\Users\Alex\Documents\GitHub\OPF\opf_gnn')
+
 import numpy as np
 from multiprocessing import Pool#, Value
 from functools import partial
@@ -7,16 +10,8 @@ import torch.nn
 import torch.nn.functional
 import tqdm
 
-from power import NetworkManager, LoadGenerator, load_case, OPFNotConverged, adjacency_from_net
-
-#os.chdir('..')
-print(os.getcwd())
-
-from opf.power import NetworkManager, LoadGenerator, load_case, OPFNotConverged, adjacency_from_net
-from GNN.Utils.dataTools import _data
-
-#from Utils.dataTools import _data
-#import pandapower as pp
+from modules.power import NetworkManager, LoadGenerator, load_case, OPFNotConverged, adjacency_from_net
+from modules.gnnUtils.dataTools import _data
 
 def f(manager, length, data):
     n, l = data
@@ -54,7 +49,9 @@ class OPFData(_data):
         self.ratio_train = ratio_train
         self.ratio_valid = ratio_valid
         self.data_dir = data_dir
-
+        
+        print('------ cwd', os.getcwd())
+        print('------    ', os.path.join(data_dir, case_name, "data.npz"))
         data = np.load(os.path.join(data_dir, case_name, "data.npz"))
         self.bus = np.transpose(data['bus'], [0,2,1])
         self.gen = data['gen']
@@ -169,7 +166,7 @@ if __name__ == '__main__':
 
     #os.chdir("..")
     # Parameters
-    n_samples = 100;
+    n_samples = 10000;
     case_name = "case30"
     state = "AK"  # state to use data from
     load_scale = 1.0  # scale the load by a factor
@@ -191,7 +188,7 @@ if __name__ == '__main__':
     q = LoadGenerator.generate_load_from_random(q, n_samples, delta=0.1)
     load = np.stack((p, q), axis=2)
     manager = NetworkManager(net)
-
+#%%
     results = None
     with Pool() as p:
         g = partial(f, manager, load.shape[0])
